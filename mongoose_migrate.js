@@ -93,21 +93,6 @@ Migrate = (function() {
     return true;
   });
 
-  Migrate.prototype.down = fibrous(function() {
-    var migration, version;
-    version = this.model.sync.findOne({}, {
-      name: 1
-    }, {
-      sort: {
-        'name': -1
-      }
-    });
-    migration = this.get(version.name);
-    this.log("Reversing migration " + migration.name);
-    migration.sync.down();
-    return version.sync.remove();
-  });
-
   Migrate.prototype.pending = fibrous(function() {
     var filenames, mv, names, run;
     filenames = fs.sync.readdir(this.opts.path).sort();

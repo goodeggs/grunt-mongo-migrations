@@ -133,33 +133,6 @@ describe 'grunt-mongoose-migrate', ->
       it 'calls error', fibrous ->
         expect(migrate.error).to.have.been.calledOnce
 
-  describe '.down', ->
-    migration = null
-    version = null
-
-    before fibrous ->
-      migration = down: sinon.spy (cb) -> cb()
-      sinon.stub migrate, 'get', -> migration
-
-      version =
-        name: 'migration'
-        remove: sinon.spy (cb) -> cb()
-
-      sinon.stub StubMigrationVersion, 'findOne', (args..., cb) ->
-        cb null, version
-
-      migrate.sync.down()
-
-    after ->
-      StubMigrationVersion.findOne.restore()
-      migrate.get.restore()
-
-    it 'calls down on the migration', fibrous ->
-      expect(migration.down).to.have.been.calledOnce
-
-    it 'removes version', fibrous ->
-      expect(version.remove).to.have.been.calledOnce
-
   describe '.pending', ->
     pending = null
 

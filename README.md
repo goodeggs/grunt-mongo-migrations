@@ -47,7 +47,6 @@ A helper grunt task to manage Mongoose MongoDB database migrations.
 * migrate:pending
 * migrate:all
 * migrate:one
-* migrate:down
 
 ### migrate:generate
 
@@ -104,10 +103,6 @@ Runs specific migration by name. If it was already executed before, will generat
     >> Finished migrations
 
     Done, without errors.
-
-### migrate:down
-
-Attempts to 
 
 # License
 
