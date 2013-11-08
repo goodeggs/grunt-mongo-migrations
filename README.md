@@ -1,4 +1,4 @@
-<img src="http://gruntjs.com/img/grunt-logo.png" style="width: 100px; float: right"/>
+<img src="http://gruntjs.com/img/grunt-logo.png" width="100" align="right"/>
 
 <a href="https://david-dm.org/goodeggs/grunt-mongoose-migrate" title="Dependency status"><img src="https://david-dm.org/goodeggs/grunt-mongoose-migrate.png"/></a>
 
