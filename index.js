@@ -61,6 +61,16 @@ module.exports = function(grunt) {
       return done();
     });
   });
+  grunt.registerTask('migrate:down', 'Revert the most recent migration', function() {
+    var done;
+    done = this.async();
+    return migrate().down(function(err) {
+      if (err == null) {
+        grunt.log.ok('Migrated down');
+      }
+      return done(err);
+    });
+  });
   grunt.registerTask('migrate:pending', 'List all pending migrations', function() {
     var done;
     done = this.async();

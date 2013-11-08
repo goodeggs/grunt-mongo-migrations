@@ -31,6 +31,13 @@ module.exports = (grunt) ->
       grunt.log.ok "Migrated `#{name.blue}`" unless err?
       done()
 
+  grunt.registerTask 'migrate:down', 'Revert the most recent migration', ->
+    done = @async()
+
+    migrate().down (err) ->
+      grunt.log.ok 'Migrated down' unless err?
+      done err
+
   grunt.registerTask 'migrate:pending', 'List all pending migrations', ->
     done = @async()
     migrate = migrate()

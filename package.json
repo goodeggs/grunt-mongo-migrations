@@ -1,7 +1,7 @@
 {
   "name": "grunt-migrations",
   "main": "./index.js",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "scripts": {
     "test": "./node_modules/.bin/mocha test/*.spec.coffee",
     "pretest": "./node_modules/.bin/coffee --bare --compile *.coffee"

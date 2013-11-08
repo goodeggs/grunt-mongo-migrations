@@ -72,6 +72,13 @@ class Migrate
       @model.sync.create name: migration.name
     true
 
+  down: fibrous ->
+    version = @model.sync.findOne {}, {name: 1}, {sort: 'name': -1}
+    migration = @get(version.name)
+    @log "Reversing migration #{migration.name}"
+    migration.sync.down()
+    version.sync.remove()
+
   # Return a list of pending migrations
   pending: fibrous ->
     filenames = fs.sync.readdir(@opts.path).sort()
