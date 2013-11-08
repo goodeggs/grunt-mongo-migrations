@@ -1,8 +1,8 @@
 ## grunt-migrations
 
-[![Dependency status](https://david-dm.org/goodeggs/grunt-migrations.png)](https://david-dm.org/goodeggs/grunt-migrations) [![Build Status](https://travis-ci.org/goodeggs/grunt-migrations.png)](https://travis-ci.org/goodeggs/grunt-migrations)
-
 A helper grunt task to manage Mongoose MongoDB database migrations.
+
+[![Dependency status](https://david-dm.org/goodeggs/grunt-migrations.png)](https://david-dm.org/goodeggs/grunt-migrations) [![Build Status](https://travis-ci.org/goodeggs/grunt-migrations.png)](https://travis-ci.org/goodeggs/grunt-migrations)
 
 ## Description
 
