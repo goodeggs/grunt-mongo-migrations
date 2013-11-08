@@ -1,0 +1,66 @@
+{
+  "name": "grunt-mongoose-migrations",
+  "main": "./index.js",
+  "version": "0.5.0",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha test/*.spec.coffee",
+    "pretest": "./node_modules/.bin/coffee --bare --compile *.coffee"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:goodeggs/grunt-mongoose-migrations.git"
+  },
+  "keywords": [
+    "grunt",
+    "mongoose",
+    "migrations",
+    "migrate"
+  ],
+  "contributors": [
+    {
+      "name": "Alex Gorbatchev",
+      "email": "alex.gorbatchev@gmail.com",
+      "web": "https://github.com/alexgorbatchev"
+    },
+    {
+      "name": "Randy Puro",
+      "email": "randypuro@gmail.com",
+      "web": "https://github.com/randypuro"
+    },
+    {
+      "name": "Alon Salant",
+      "email": "alon@salant.org",
+      "web": "https://github.com/asalant"
+    },
+    {
+      "name": "Bob Zoller",
+      "email": "bob@zoller.us",
+      "web": "https://github.com/bobzoller"
+    },
+    {
+      "name": "Adam Hull",
+      "email": "adam@hmlad.com",
+      "web": "https://github.com/hurrymaplelad"
+    }
+  ],
+  "licenses": [
+    "MIT"
+  ],
+  "peerDependencies": {
+    "grunt": "~0.4.1",
+    "fibrous": "~0.3.2",
+    "mongoose": "~3.8.0"
+  },
+  "devDependencies": {
+    "coffee-script": "*",
+    "mocha": "*",
+    "fibrous": "*",
+    "chai": "*",
+    "sinon-chai": "~2.4.0",
+    "sinon": "~1.7.3"
+  },
+  "dependencies": {
+    "slugify": "0.x",
+    "lazy.js": "~0.2.0"
+  }
+}
