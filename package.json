@@ -46,11 +46,6 @@
   "licenses": [
     "MIT"
   ],
-  "peerDependencies": {
-    "grunt": "~0.4.1",
-    "fibrous": "~0.3.2",
-    "mongoose": "~3.8.0"
-  },
   "devDependencies": {
     "coffee-script": "*",
     "mocha": "*",
@@ -60,6 +55,9 @@
     "sinon": "~1.7.3"
   },
   "dependencies": {
+    "grunt": "*",
+    "fibrous": "*",
+    "mongoose": "*",
     "slugify": "0.x",
     "lazy.js": "~0.2.0"
   }
