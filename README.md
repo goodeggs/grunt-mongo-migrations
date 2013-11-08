@@ -28,9 +28,6 @@ A helper grunt task to manage Mongoose MongoDB database migrations.
       up: (callback) ->
         callback()
 
-      down: (callback) ->
-        throw new Error('irreversible migration')
-
       test: ->
         describe 'up', ->
           before ->
