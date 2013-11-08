@@ -2,13 +2,21 @@
 
 <a href="https://david-dm.org/goodeggs/grunt-mongoose-migrate" title="Dependency status"><img src="https://david-dm.org/goodeggs/grunt-mongoose-migrate.png"/></a>
 
-# Grunt Mongoose Migrate
+## grunt-mongoose-migrations
 
 A helper grunt task to manage Mongoose MongoDB database migrations.
 
-# Usage Example
+## Installation
 
-## Gruntfile
+    $ npm install grunt-mongoose-migrations
+
+## Tests
+
+    $ npm test
+    
+## Usage
+
+### Gruntfile
 
     module.exports = (grunt) ->
       grunt.loadNpmTasks 'grunt-mongoose-migrations'
@@ -16,11 +24,13 @@ A helper grunt task to manage Mongoose MongoDB database migrations.
       grunt.initConfig
         migrations:
           path: "#{__dirname}/migrations"
-          template: grunt.file.read "#{__dirname}/migrations/_template.coffee"
+          template: grunt.file.read "#{__dirname}/migrations/_template.coffee" # optional
           mongo: 'mongodb://localhost:12345'
           ext: "coffee" # default `coffee`
 
-## _template.coffee
+### _template.coffee
+
+By default the task will generate a migration in CoffeeScript using the same template as in this example. You can of course provide your own template in JavaScript.
 
     module.exports =          
       requiresDowntime: FIXME # true or false
@@ -49,7 +59,7 @@ A helper grunt task to manage Mongoose MongoDB database migrations.
 
 Will create a migration using template in the file name with a `[timestamp]_[name].[ext]`
 
-    $> grunt migrate:generate --name=rename_created_on_to_created_at
+    $ grunt migrate:generate --name=rename_created_on_to_created_at
     
     Running "migrate:generate" task
     >> Created `./migrations/20131108211056037_rename_created_on_to_created_at.coffee`
@@ -60,7 +70,7 @@ Will create a migration using template in the file name with a `[timestamp]_[nam
 
 Prints out a list of pending migrations 
 
-    $> grunt migrate:pending
+    $ grunt migrate:pending
     
     Running "migrate:pending" task
     >> `20131108193444023_move_users` is pending (requires downtime)
@@ -71,7 +81,7 @@ Prints out a list of pending migrations
 
 Runs all pending migrations.
 
-    $> grunt migrate:all
+    $ grunt migrate:all
     
     Running "migrate:all" task
     >> Running migration 20131108193444023_test1
@@ -82,7 +92,7 @@ Runs all pending migrations.
 
 Running this again will do nothing because all migrations have been ran.
 
-    $> grunt migrate:all
+    $ grunt migrate:all
     
     Running "migrate:all" task
     >> Finished migrations
@@ -93,7 +103,7 @@ Running this again will do nothing because all migrations have been ran.
 
 Runs specific migration by name. If it was already executed before, will generate an error.
 
-    $> grunt migrate:one --name=rename_created_on_to_created_at
+    $ grunt migrate:one --name=rename_created_on_to_created_at
     
     Running "migrate:one" task
     >> Running migration 20131108211056037_rename_created_on_to_created_at
