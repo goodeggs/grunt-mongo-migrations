@@ -26,15 +26,17 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'migrate:one', 'Run a migration.', ->
     done = @async()
+    name = getName()
 
-    migrate().one getName(), (err) ->
+    migrate().one name, (err) ->
       grunt.log.ok "Migrated `#{name.blue}`" unless err?
       done()
 
   grunt.registerTask 'migrate:test', 'Tests a migration.', ->
     done = @async()
+    name = getName()
 
-    migrate().test getName(), (err) ->
+    migrate().test name, (err) ->
       grunt.log.ok "Completed `#{name.blue}`" unless err?
       done()
 
