@@ -64,10 +64,10 @@ Migrate = (function() {
     }) != null;
   });
 
-  Migrate.prototype.test = function(name) {
+  Migrate.prototype.test = fibrous(function(name) {
     this.log("Testing migration `" + name + "`");
-    return this.get(name).test();
-  };
+    return this.get(name).sync.test();
+  });
 
   Migrate.prototype.one = fibrous(function(name) {
     return this.sync.all([name]);

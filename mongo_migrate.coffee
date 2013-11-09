@@ -49,9 +49,9 @@ class Migrate
   exists: fibrous (name) ->
     @model.sync.findOne({name})?
 
-  test: (name) ->
+  test: fibrous (name) ->
     @log "Testing migration `#{name}`"
-    @get(name).test()
+    @get(name).sync.test()
 
   # Run one migration by name
   one: fibrous (name) ->

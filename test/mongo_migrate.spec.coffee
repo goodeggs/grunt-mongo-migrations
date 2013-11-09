@@ -46,9 +46,9 @@ describe 'grunt-mongoose-migrate', ->
     migration = null
 
     before fibrous ->
-      migration = test: sinon.spy()
+      migration = test: sinon.spy (cb) -> cb()
       sinon.stub migrate, 'get', -> migration
-      migrate.test()
+      migrate.sync.test()
 
     after ->
       migrate.get.restore()
