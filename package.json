@@ -1,18 +1,18 @@
 {
-  "name": "grunt-migrations",
+  "name": "grunt-mongo-migrations",
   "main": "./index.js",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "scripts": {
     "test": "./node_modules/.bin/mocha test/*.spec.coffee",
     "pretest": "./node_modules/.bin/coffee --bare --compile *.coffee tasks/*.coffee"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:goodeggs/grunt-migrations.git"
+    "url": "git@github.com:goodeggs/grunt-mongo-migrations.git"
   },
   "keywords": [
     "grunt",
-    "mongoose",
+    "mongo",
     "migrations",
     "migrate"
   ],
@@ -51,14 +51,14 @@
     "mocha": "*",
     "fibrous": "*",
     "chai": "*",
-    "sinon-chai": "~2.4.0",
-    "sinon": "~1.7.3"
+    "sinon-chai": "*",
+    "sinon": "*"
   },
   "dependencies": {
     "grunt": "*",
     "fibrous": "*",
     "mongoose": "*",
     "slugify": "0.x",
-    "lazy.js": "~0.2.0"
+    "lazy.js": "0.1.x"
   }
 }

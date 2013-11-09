@@ -1,7 +1,7 @@
 module.exports = (grunt) ->
   migrate = ->
     require 'coffee-errors'
-    Migrate = require './migrate'
+    Migrate = require '../mongo_migrate'
 
     grunt.config.requires 'migrations.path'
     grunt.config.requires 'migrations.mongo'

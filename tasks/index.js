@@ -7,7 +7,7 @@ module.exports = function(grunt) {
   migrate = function() {
     var GruntMigrate, Migrate, _ref;
     require('coffee-errors');
-    Migrate = require('./migrate');
+    Migrate = require('../mongo_migrate');
     grunt.config.requires('migrations.path');
     grunt.config.requires('migrations.mongo');
     GruntMigrate = (function(_super) {

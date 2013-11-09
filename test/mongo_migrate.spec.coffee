@@ -5,7 +5,7 @@ sinon = require 'sinon'
 
 expect = chai.expect
 chai.use require 'sinon-chai'
-Migrate = require '../mongoose_migrate.js'
+Migrate = require '../mongo_migrate.js'
 
 class StubMigrationVersion
   @find: ->
