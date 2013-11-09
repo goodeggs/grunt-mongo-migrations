@@ -36,12 +36,12 @@ Migrate = (function() {
       this.model = connection.model('MigrationVersion', schema, 'migration_versions');
     }
     if ((_base = this.opts).template == null) {
-      _base.template = "module.exports =\n  requiresDowntime: FIXME # true or false\n\n  up: (callback) ->\n    callback()\n\n  down: (callback) ->\n    throw new Error('irreversible migration')\n\n  test: ->\n    describe 'up', ->\n      before ->\n      after ->\n      it 'works'";
+      _base.template = "module.exports =\n  requiresDowntime: FIXME # true or false\n\n  up: (done) ->\n    done()\n\n  down: (done) ->\n    throw new Error('irreversible migration')\n\n  test: (done) ->\n    console.log 'copying development to test'\n    require('child_process').exec \"mongo test --eval \"db.dropDatabase(); db.copyDatabase('development', 'test'); print('copied')\"\", ->\n      done()";
     }
   }
 
   Migrate.prototype.getTemplate = function(name) {
-    return "" + this.opts.template;
+    return this.opts.template;
   };
 
   Migrate.prototype.log = function() {};
@@ -65,6 +65,7 @@ Migrate = (function() {
   });
 
   Migrate.prototype.test = function(name) {
+    this.log("Testing migration `" + name + "`");
     return this.get(name).test();
   };
 
@@ -80,11 +81,11 @@ Migrate = (function() {
     for (_i = 0, _len = migrations.length; _i < _len; _i++) {
       name = migrations[_i];
       if (this.sync.exists(name)) {
-        this.error("" + name + " has already been run");
+        this.error("`" + name + "` has already been run");
         return false;
       }
       migration = this.get(name);
-      this.log("Running migration " + migration.name);
+      this.log("Running migration `" + migration.name + "`");
       migration.sync.up();
       this.model.sync.create({
         name: migration.name
@@ -103,7 +104,7 @@ Migrate = (function() {
       }
     });
     migration = this.get(version.name);
-    this.log("Reversing migration " + migration.name);
+    this.log("Reversing migration `" + migration.name + "`");
     migration.sync.down();
     return version.sync.remove();
   });

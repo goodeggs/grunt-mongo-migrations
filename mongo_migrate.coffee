@@ -20,22 +20,19 @@ class Migrate
       module.exports =
         requiresDowntime: FIXME # true or false
 
-        up: (callback) ->
-          callback()
+        up: (done) ->
+          done()
 
-        down: (callback) ->
+        down: (done) ->
           throw new Error('irreversible migration')
 
-        test: ->
-          describe 'up', ->
-            before ->
-            after ->
-            it 'works'
+        test: (done) ->
+          console.log 'copying development to test'
+          require('child_process').exec "mongo test --eval \"db.dropDatabase(); db.copyDatabase('development', 'test'); print('copied')\"", ->
+            done()
     """
 
-  getTemplate: (name) -> """
-    #{@opts.template}
-  """
+  getTemplate: (name) -> @opts.template
 
   log: ->
 
@@ -53,6 +50,7 @@ class Migrate
     @model.sync.findOne({name})?
 
   test: (name) ->
+    @log "Testing migration `#{name}`"
     @get(name).test()
 
   # Run one migration by name
@@ -64,10 +62,10 @@ class Migrate
     migrations = @sync.pending() if !migrations?
     for name in migrations
       if @sync.exists(name)
-        @error "#{name} has already been run"
+        @error "`#{name}` has already been run"
         return false
       migration = @get(name)
-      @log "Running migration #{migration.name}"
+      @log "Running migration `#{migration.name}`"
       migration.sync.up()
       @model.sync.create name: migration.name
     true
@@ -75,7 +73,7 @@ class Migrate
   down: fibrous ->
     version = @model.sync.findOne {}, {name: 1}, {sort: 'name': -1}
     migration = @get(version.name)
-    @log "Reversing migration #{migration.name}"
+    @log "Reversing migration `#{migration.name}`"
     migration.sync.down()
     version.sync.remove()
 

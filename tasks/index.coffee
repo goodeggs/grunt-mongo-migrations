@@ -24,11 +24,18 @@ module.exports = (grunt) ->
       grunt.log.ok "Created `#{filename.blue}`" unless err?
       done err
 
-  grunt.registerTask 'migrate:one', 'Run a migration. e.g. `grunt migrate:one --name 20120215233505_split_user_name`', ->
+  grunt.registerTask 'migrate:one', 'Run a migration.', ->
     done = @async()
 
     migrate().one getName(), (err) ->
       grunt.log.ok "Migrated `#{name.blue}`" unless err?
+      done()
+
+  grunt.registerTask 'migrate:test', 'Tests a migration.', ->
+    done = @async()
+
+    migrate().test getName(), (err) ->
+      grunt.log.ok "Completed `#{name.blue}`" unless err?
       done()
 
   grunt.registerTask 'migrate:down', 'Revert the most recent migration', ->

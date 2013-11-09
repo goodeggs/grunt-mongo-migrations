@@ -51,12 +51,22 @@ module.exports = function(grunt) {
       return done(err);
     });
   });
-  grunt.registerTask('migrate:one', 'Run a migration. e.g. `grunt migrate:one --name 20120215233505_split_user_name`', function() {
+  grunt.registerTask('migrate:one', 'Run a migration.', function() {
     var done;
     done = this.async();
     return migrate().one(getName(), function(err) {
       if (err == null) {
         grunt.log.ok("Migrated `" + name.blue + "`");
+      }
+      return done();
+    });
+  });
+  grunt.registerTask('migrate:test', 'Tests a migration.', function() {
+    var done;
+    done = this.async();
+    return migrate().test(getName(), function(err) {
+      if (err == null) {
+        grunt.log.ok("Completed `" + name.blue + "`");
       }
       return done();
     });

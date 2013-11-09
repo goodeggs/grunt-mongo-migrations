@@ -58,6 +58,7 @@ By default the task will generate a migration in CoffeeScript using the same tem
 * `migrate:pending`
 * `migrate:all`
 * `migrate:one`
+* `migrate:test`
 
 ### migrate:generate
 
@@ -88,8 +89,8 @@ Runs all pending migrations.
     $ grunt migrate:all
 
     Running "migrate:all" task
-    >> Running migration 20131108193444023_test1
-    >> Running migration 20131108211056037_rename_created_on_to_created_at
+    >> Running migration `20131108193444023_test1`
+    >> Running migration `20131108211056037_rename_created_on_to_created_at`
     >> Finished migrations
 
     Done, without errors.
@@ -110,7 +111,19 @@ Runs specific migration by name. If it was already executed before, will generat
     $ grunt migrate:one --name=rename_created_on_to_created_at
 
     Running "migrate:one" task
-    >> Running migration 20131108211056037_rename_created_on_to_created_at
+    >> Running migration `20131108211056037_rename_created_on_to_created_at`
+    >> Finished migrations
+
+    Done, without errors.
+
+### migrate:test
+
+Runs specific migration by name via test runner. You should take care of using correct test databases. The template includes a proposed way of copying development database into test on every run.
+
+    $ grunt migrate:test --name=rename_created_on_to_created_at
+
+    Running "migrate:test" task
+    >> Testing migration `20131108211056037_rename_created_on_to_created_at`
     >> Finished migrations
 
     Done, without errors.
