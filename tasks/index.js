@@ -52,9 +52,10 @@ module.exports = function(grunt) {
     });
   });
   grunt.registerTask('migrate:one', 'Run a migration.', function() {
-    var done;
+    var done, name;
     done = this.async();
-    return migrate().one(getName(), function(err) {
+    name = getName();
+    return migrate().one(name, function(err) {
       if (err == null) {
         grunt.log.ok("Migrated `" + name.blue + "`");
       }
@@ -62,9 +63,10 @@ module.exports = function(grunt) {
     });
   });
   grunt.registerTask('migrate:test', 'Tests a migration.', function() {
-    var done;
+    var done, name;
     done = this.async();
-    return migrate().test(getName(), function(err) {
+    name = getName();
+    return migrate().test(name, function(err) {
       if (err == null) {
         grunt.log.ok("Completed `" + name.blue + "`");
       }
