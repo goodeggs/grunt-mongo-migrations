@@ -1,18 +1,18 @@
-## grunt-migrations
+## grunt-mongo-migrations
 
 A helper grunt task to manage Mongoose MongoDB database migrations.
 
-[![Dependency status](https://david-dm.org/goodeggs/grunt-migrations.png)](https://david-dm.org/goodeggs/grunt-migrations) [![Build Status](https://travis-ci.org/goodeggs/grunt-migrations.png)](https://travis-ci.org/goodeggs/grunt-migrations)
+[![Dependency status](https://david-dm.org/goodeggs/grunt-mongo-migrations.png)](https://david-dm.org/goodeggs/grunt-mongo-migrations) [![Build Status](https://travis-ci.org/goodeggs/grunt-mongo-migrations.png)](https://travis-ci.org/goodeggs/grunt-mongo-migrations)
 
 ## Description
 
 <img src="http://gruntjs.com/img/grunt-logo.png" width="100" align="right"/>
 
-`grunt-migrations` works by keeping track of migration files that it executes in the `migrations_versions` MongoDB collection. You create and write your migrations which you then execute on your server. Migrations that were already executed will not execute again.
+`grunt-mongo-migrations` works by keeping track of migration files that it executes in the `migrations_versions` MongoDB collection. You create and write your migrations which you then execute on your server. Migrations that were already executed will not execute again.
 
 ## Installation
 
-    $ npm install grunt-migrations
+    $ npm install grunt-mongo-migrations
 
 ## Tests
 
@@ -23,7 +23,7 @@ A helper grunt task to manage Mongoose MongoDB database migrations.
 ### Gruntfile
 
     module.exports = (grunt) ->
-      grunt.loadNpmTasks 'grunt-migrations'
+      grunt.loadNpmTasks 'grunt-mongo-migrations'
 
       grunt.initConfig
         migrations:
