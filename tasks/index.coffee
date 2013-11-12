@@ -12,6 +12,11 @@ module.exports = (grunt) ->
 
     new GruntMigrate grunt.config 'migrations'
 
+  err = (fn) ->
+    (err, args...) ->
+      throw err if err?
+      fn args...
+
   getName = ->
     {name} = grunt.cli.options
     return grunt.fail.fatal "Migration name must be specified with `#{"--name".bold}`" unless name?
@@ -20,7 +25,7 @@ module.exports = (grunt) ->
   grunt.registerTask 'migrate:generate', 'Create a new migration', ->
     done = @async()
 
-    migrate().generate getName(), (err, filename) ->
+    migrate().generate getName(), err (filename) ->
       grunt.log.ok "Created `#{filename.blue}`" unless err?
       done err
 
@@ -28,7 +33,7 @@ module.exports = (grunt) ->
     done = @async()
     name = getName()
 
-    migrate().one name, (err) ->
+    migrate().one name, err ->
       grunt.log.ok "Migrated `#{name.blue}`" unless err?
       done()
 
@@ -36,14 +41,14 @@ module.exports = (grunt) ->
     done = @async()
     name = getName()
 
-    migrate().test name, (err) ->
+    migrate().test name, err ->
       grunt.log.ok "Completed `#{name.blue}`" unless err?
       done()
 
   grunt.registerTask 'migrate:down', 'Revert the most recent migration', ->
     done = @async()
 
-    migrate().down (err) ->
+    migrate().down err ->
       grunt.log.ok 'Migrated down' unless err?
       done err
 
@@ -51,7 +56,7 @@ module.exports = (grunt) ->
     done = @async()
     migrate = migrate()
 
-    migrate.pending (err, pending) ->
+    migrate.pending err (pending) ->
       unless err?
         grunt.log.ok 'No pending migrations' if pending.length == 0
 
@@ -63,6 +68,6 @@ module.exports = (grunt) ->
   grunt.registerTask 'migrate:all', 'Run all pending migrations', ->
     done = @async()
 
-    migrate().all (err) ->
+    migrate().all err ->
       grunt.log.ok 'Finished migrations' unless err?
       done err
