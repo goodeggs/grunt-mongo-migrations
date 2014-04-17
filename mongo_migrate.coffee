@@ -1,5 +1,4 @@
 fs = require 'fs'
-lazy = require 'lazy.js'
 mongoose = require 'mongoose'
 fibrous = require 'fibrous'
 slugify = require 'slugify'
@@ -80,12 +79,15 @@ class Migrate
   # Return a list of pending migrations
   pending: fibrous ->
     filenames = fs.sync.readdir(@opts.path).sort()
-    names = lazy(filenames).map (filename) ->
+    migrationsAlreadyRun = (mv.name for mv in @model.sync.find())
+    names = filenames.map (filename) ->
       return unless (match = filename.match /^([^_].+)\.coffee$/)
       match[1]
-    names = lazy(names).compact()
-    run = (mv.name for mv in @model.sync.find())
-    lazy(names).without(run).toArray()
+    .filter (name) ->
+      !!name
+    .filter (name) ->
+      name not in migrationsAlreadyRun
+    names
 
   # Generate a stub migration file
   generate: fibrous (name) ->
