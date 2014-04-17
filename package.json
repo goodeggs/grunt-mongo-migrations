@@ -47,7 +47,7 @@
     "MIT"
   ],
   "devDependencies": {
-    "coffee-script": "*",
+    "coffee-script": "~1.6.3",
     "mocha": "*",
     "fibrous": "*",
     "chai": "*",
