@@ -26,15 +26,15 @@ module.exports = (grunt) ->
     done = @async()
 
     migrate().generate getName(), err (filename) ->
-      grunt.log.ok "Created `#{filename.blue}`" unless err?
-      done err
+      grunt.log.ok "Created `#{filename.blue}`"
+      done()
 
   grunt.registerTask 'migrate:one', 'Run a migration.', ->
     done = @async()
     name = getName()
 
     migrate().one name, err ->
-      grunt.log.ok "Migrated `#{name.blue}`" unless err?
+      grunt.log.ok "Migrated `#{name.blue}`"
       done()
 
   grunt.registerTask 'migrate:test', 'Tests a migration.', ->
@@ -42,14 +42,14 @@ module.exports = (grunt) ->
     name = getName()
 
     migrate().test name, err ->
-      grunt.log.ok "Completed `#{name.blue}`" unless err?
+      grunt.log.ok "Completed `#{name.blue}`"
       done()
 
   grunt.registerTask 'migrate:down', 'Revert the most recent migration', ->
     done = @async()
 
     migrate().down err ->
-      grunt.log.ok 'Migrated down' unless err?
+      grunt.log.ok 'Migrated down'
       done err
 
   grunt.registerTask 'migrate:pending', 'List all pending migrations', ->
@@ -57,17 +57,16 @@ module.exports = (grunt) ->
     migrate = migrate()
 
     migrate.pending err (pending) ->
-      unless err?
-        grunt.log.ok 'No pending migrations' if pending.length == 0
+      grunt.log.ok 'No pending migrations' if pending.length == 0
 
-        pending.forEach (name) ->
-          grunt.log.ok "`#{name.blue}` is pending " + (migrate.get(name).requiresDowntime and "(requires downtime)".red.bold or '')
+      pending.forEach (name) ->
+        grunt.log.ok "`#{name.blue}` is pending " + (migrate.get(name).requiresDowntime and "(requires downtime)".red.bold or '')
 
-      done err
+      done()
 
   grunt.registerTask 'migrate:all', 'Run all pending migrations', ->
     done = @async()
 
     migrate().all err ->
-      grunt.log.ok 'Finished migrations' unless err?
-      done err
+      grunt.log.ok 'Finished migrations'
+      done()
