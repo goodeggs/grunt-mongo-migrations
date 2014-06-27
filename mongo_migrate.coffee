@@ -15,6 +15,8 @@ class Migrate
 
       @model = connection.model 'MigrationVersion', schema, 'migration_versions'
 
+    @opts.ext ?= 'coffee'
+
     @opts.template ?= """
       module.exports =
         requiresDowntime: FIXME # true or false
@@ -39,7 +41,7 @@ class Migrate
     throw new Error msg
 
   get: (name) ->
-    name = name.replace /\.coffee$/, ''
+    name = name.replace new RegExp("\.#{@opts.ext}$"), ''
     migration = require "#{@opts.path}/#{name}"
     migration.name = name
     migration
@@ -80,8 +82,8 @@ class Migrate
   pending: fibrous ->
     filenames = fs.sync.readdir(@opts.path).sort()
     migrationsAlreadyRun = (mv.name for mv in @model.sync.find())
-    names = filenames.map (filename) ->
-      return unless (match = filename.match /^([^_].+)\.coffee$/)
+    names = filenames.map (filename) =>
+      return unless (match = filename.match new RegExp "^([^_].+)\.#{@opts.ext}$")
       match[1]
     .filter (name) ->
       !!name
@@ -93,7 +95,7 @@ class Migrate
   generate: fibrous (name) ->
     name = "#{slugify name, '_'}"
     timestamp = (new Date()).toISOString().replace /\D/g, ''
-    filename = "#{@opts.path}/#{timestamp}_#{name}.#{@opts.ext or 'coffee'}"
+    filename = "#{@opts.path}/#{timestamp}_#{name}.#{@opts.ext}"
     fs.sync.writeFile filename, @getTemplate name
     filename
 

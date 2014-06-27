@@ -12,7 +12,7 @@ slugify = require('slugify');
 
 Migrate = (function() {
   function Migrate(opts, model) {
-    var connection, schema, _base;
+    var connection, schema, _base, _base1;
     this.opts = opts;
     this.model = model;
     if (this.model == null) {
@@ -34,8 +34,11 @@ Migrate = (function() {
       });
       this.model = connection.model('MigrationVersion', schema, 'migration_versions');
     }
-    if ((_base = this.opts).template == null) {
-      _base.template = "module.exports =\n  requiresDowntime: FIXME # true or false\n\n  up: (done) ->\n    done()\n\n  down: (done) ->\n    throw new Error('irreversible migration')\n\n  test: (done) ->\n    console.log 'copying development to test'\n    require('child_process').exec \"mongo test --eval \"db.dropDatabase(); db.copyDatabase('development', 'test'); print('copied')\"\", ->\n      done()";
+    if ((_base = this.opts).ext == null) {
+      _base.ext = 'coffee';
+    }
+    if ((_base1 = this.opts).template == null) {
+      _base1.template = "module.exports =\n  requiresDowntime: FIXME # true or false\n\n  up: (done) ->\n    done()\n\n  down: (done) ->\n    throw new Error('irreversible migration')\n\n  test: (done) ->\n    console.log 'copying development to test'\n    require('child_process').exec \"mongo test --eval \"db.dropDatabase(); db.copyDatabase('development', 'test'); print('copied')\"\", ->\n      done()";
     }
   }
 
@@ -51,7 +54,7 @@ Migrate = (function() {
 
   Migrate.prototype.get = function(name) {
     var migration;
-    name = name.replace(/\.coffee$/, '');
+    name = name.replace(new RegExp("\." + this.opts.ext + "$"), '');
     migration = require("" + this.opts.path + "/" + name);
     migration.name = name;
     return migration;
@@ -109,7 +112,8 @@ Migrate = (function() {
   });
 
   Migrate.prototype.pending = fibrous(function() {
-    var filenames, migrationsAlreadyRun, mv, names;
+    var filenames, migrationsAlreadyRun, mv, names,
+      _this = this;
     filenames = fs.sync.readdir(this.opts.path).sort();
     migrationsAlreadyRun = (function() {
       var _i, _len, _ref, _results;
@@ -123,7 +127,7 @@ Migrate = (function() {
     }).call(this);
     names = filenames.map(function(filename) {
       var match;
-      if (!(match = filename.match(/^([^_].+)\.coffee$/))) {
+      if (!(match = filename.match(new RegExp("^([^_].+)\." + _this.opts.ext + "$")))) {
         return;
       }
       return match[1];
@@ -139,7 +143,7 @@ Migrate = (function() {
     var filename, timestamp;
     name = "" + (slugify(name, '_'));
     timestamp = (new Date()).toISOString().replace(/\D/g, '');
-    filename = "" + this.opts.path + "/" + timestamp + "_" + name + "." + (this.opts.ext || 'coffee');
+    filename = "" + this.opts.path + "/" + timestamp + "_" + name + "." + this.opts.ext;
     fs.sync.writeFile(filename, this.getTemplate(name));
     return filename;
   });

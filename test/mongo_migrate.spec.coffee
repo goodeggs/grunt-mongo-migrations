@@ -162,22 +162,32 @@ describe 'grunt-mongoose-migrate', ->
 
   describe '.pending', ->
     pending = null
+    migrate = null
 
-    before fibrous ->
-      sinon.stub fs, 'readdir', (args..., cb) ->
-        cb null, ['migration3.coffee', 'migration2.coffee', 'migration1.coffee']
+    scenarioForFileExtension = (ext) ->
+      before fibrous ->
+        migrate = new Migrate {path: __dirname, ext: ext}, StubMigrationVersion
 
-      sinon.stub StubMigrationVersion, 'find', (args..., cb) ->
-        cb null, [name: 'migration1']
+        sinon.stub fs, 'readdir', (args..., cb) ->
+          cb null, ["migration3.#{ext}", "migration2.#{ext}", "migration1.#{ext}"]
 
-      pending = migrate.sync.pending()
+        sinon.stub StubMigrationVersion, 'find', (args..., cb) ->
+          cb null, [name: 'migration1']
 
-    after ->
-      fs.readdir.restore()
-      StubMigrationVersion.find.restore()
+        pending = migrate.sync.pending()
 
-    it 'returns pending migrations', fibrous ->
-      expect(pending).to.eql ['migration2', 'migration3']
+      after ->
+        fs.readdir.restore()
+        StubMigrationVersion.find.restore()
+
+      it 'returns pending migrations', fibrous ->
+        expect(pending).to.eql ['migration2', 'migration3']
+
+    describe "coffee-script", ->
+      scenarioForFileExtension "coffee"
+
+    describe "javascript", ->
+      scenarioForFileExtension "js"
 
   describe '.generate', ->
     before fibrous ->

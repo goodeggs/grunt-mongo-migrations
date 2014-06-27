@@ -56,10 +56,8 @@ module.exports = function(grunt) {
     var done;
     done = this.async();
     return migrate().generate(getName(), err(function(filename) {
-      if (err == null) {
-        grunt.log.ok("Created `" + filename.blue + "`");
-      }
-      return done(err);
+      grunt.log.ok("Created `" + filename.blue + "`");
+      return done();
     }));
   });
   grunt.registerTask('migrate:one', 'Run a migration.', function() {
@@ -67,9 +65,7 @@ module.exports = function(grunt) {
     done = this.async();
     name = getName();
     return migrate().one(name, err(function() {
-      if (err == null) {
-        grunt.log.ok("Migrated `" + name.blue + "`");
-      }
+      grunt.log.ok("Migrated `" + name.blue + "`");
       return done();
     }));
   });
@@ -78,9 +74,7 @@ module.exports = function(grunt) {
     done = this.async();
     name = getName();
     return migrate().test(name, err(function() {
-      if (err == null) {
-        grunt.log.ok("Completed `" + name.blue + "`");
-      }
+      grunt.log.ok("Completed `" + name.blue + "`");
       return done();
     }));
   });
@@ -88,9 +82,7 @@ module.exports = function(grunt) {
     var done;
     done = this.async();
     return migrate().down(err(function() {
-      if (err == null) {
-        grunt.log.ok('Migrated down');
-      }
+      grunt.log.ok('Migrated down');
       return done(err);
     }));
   });
@@ -99,25 +91,21 @@ module.exports = function(grunt) {
     done = this.async();
     migrate = migrate();
     return migrate.pending(err(function(pending) {
-      if (err == null) {
-        if (pending.length === 0) {
-          grunt.log.ok('No pending migrations');
-        }
-        pending.forEach(function(name) {
-          return grunt.log.ok(("`" + name.blue + "` is pending ") + (migrate.get(name).requiresDowntime && "(requires downtime)".red.bold || ''));
-        });
+      if (pending.length === 0) {
+        grunt.log.ok('No pending migrations');
       }
-      return done(err);
+      pending.forEach(function(name) {
+        return grunt.log.ok(("`" + name.blue + "` is pending ") + (migrate.get(name).requiresDowntime && "(requires downtime)".red.bold || ''));
+      });
+      return done();
     }));
   });
   return grunt.registerTask('migrate:all', 'Run all pending migrations', function() {
     var done;
     done = this.async();
     return migrate().all(err(function() {
-      if (err == null) {
-        grunt.log.ok('Finished migrations');
-      }
-      return done(err);
+      grunt.log.ok('Finished migrations');
+      return done();
     }));
   });
 };

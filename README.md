@@ -103,6 +103,16 @@ Running this again will do nothing because all migrations have been ran.
     >> Finished migrations
 
     Done, without errors.
+    
+### migrate:down
+
+Runs down the last migration.
+
+    $ grunt migrate:all
+
+    Running "migrate:down" task
+    >> Reversing migration `20131108211056037_rename_created_on_to_created_at`
+    >> Migrated down
 
 ### migrate:one
 
