@@ -164,7 +164,7 @@ describe 'grunt-mongoose-migrate', ->
     pending = null
     migrate = null
 
-    _test = (ext) ->
+    scenarioForFileExtension = (ext) ->
       before fibrous ->
         migrate = new Migrate {path: __dirname, ext: ext}, StubMigrationVersion
 
@@ -184,10 +184,10 @@ describe 'grunt-mongoose-migrate', ->
         expect(pending).to.eql ['migration2', 'migration3']
 
     describe "coffee-script", ->
-      _test "coffee"
+      scenarioForFileExtension "coffee"
 
     describe "javascript", ->
-      _test "js"
+      scenarioForFileExtension "js"
 
   describe '.generate', ->
     before fibrous ->
