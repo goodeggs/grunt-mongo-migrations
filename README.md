@@ -40,13 +40,12 @@ By default the task will generate a migration in CoffeeScript using the same tem
       requiresDowntime: FIXME # true or false
 
       up: (callback) ->
+        // your migration goes here
         callback()
 
-      test: ->
-        describe 'up', ->
-          before ->
-          after ->
-          it 'works'
+      test: (callback) ->
+        // your test goes here
+        callback()
 
 ### Down Time Management
 
