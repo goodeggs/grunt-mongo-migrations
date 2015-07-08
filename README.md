@@ -42,6 +42,10 @@ By default the task will generate a migration in CoffeeScript using the same tem
       up: (callback) ->
         // your migration goes here
         callback()
+        
+      down: (callback) ->
+        // throw new Error('Irreversible migration.');
+        callback()
 
       test: (callback) ->
         // your test goes here
