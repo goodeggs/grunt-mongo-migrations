@@ -1,6 +1,7 @@
 chai = require 'chai'
 fibrous = require 'fibrous'
 fs = require 'fs'
+mongoose = require 'mongoose'
 sinon = require 'sinon'
 
 expect = chai.expect
@@ -18,6 +19,58 @@ describe 'grunt-mongoose-migrate', ->
   before ->
     opts = path: __dirname
     migrate = new Migrate opts, StubMigrationVersion
+
+  describe 'config', ->
+    beforeEach ->
+      sinon.stub(mongoose, 'createConnection').returns model: sinon.stub()
+      @opts = path: __dirname
+      @uri = 'mongodb://username:password@some.mongo.instance:1234/dbname'
+
+    afterEach -> mongoose.createConnection.restore()
+
+    it 'can specify mongo as a string', ->
+      @opts.mongo = @uri
+
+      new Migrate @opts
+
+      expect(mongoose.createConnection.callCount).to.equal 1
+      expect(mongoose.createConnection.firstCall.args.length).to.equal 2
+      expect(mongoose.createConnection.firstCall.args[0]).to.equal @uri
+      expect(mongoose.createConnection.firstCall.args[1]).to.be.undefined
+
+    it 'can specify mongo as a function that returns a string', ->
+      @opts.mongo = => @uri
+
+      new Migrate @opts
+
+      expect(mongoose.createConnection.callCount).to.equal 1
+      expect(mongoose.createConnection.firstCall.args.length).to.equal 2
+      expect(mongoose.createConnection.firstCall.args[0]).to.equal @uri
+      expect(mongoose.createConnection.firstCall.args[1]).to.be.undefined
+
+    it 'can specify mongo as an object', ->
+      @opts.mongo =
+        uri: @uri
+        opts: mongos: true
+
+      new Migrate @opts
+
+      expect(mongoose.createConnection.callCount).to.equal 1
+      expect(mongoose.createConnection.firstCall.args.length).to.equal 2
+      expect(mongoose.createConnection.firstCall.args[0]).to.equal @uri
+      expect(mongoose.createConnection.firstCall.args[1]).to.eql mongos: true
+
+    it 'can specify mongo as a function that returns an object', ->
+      @opts.mongo = =>
+        uri: @uri
+        opts: mongos: true
+
+      new Migrate @opts
+
+      expect(mongoose.createConnection.callCount).to.equal 1
+      expect(mongoose.createConnection.firstCall.args.length).to.equal 2
+      expect(mongoose.createConnection.firstCall.args[0]).to.equal @uri
+      expect(mongoose.createConnection.firstCall.args[1]).to.eql mongos: true
 
   describe '.get', ->
     migration = null
@@ -199,4 +252,3 @@ describe 'grunt-mongoose-migrate', ->
 
     it 'generates migration file', fibrous ->
       expect(fs.writeFile).to.have.been.calledWithMatch /^.*_filename/, /.+/
-
