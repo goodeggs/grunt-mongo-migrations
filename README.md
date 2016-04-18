@@ -30,7 +30,36 @@ A helper grunt task to manage Mongoose MongoDB database migrations.
           path: "#{__dirname}/migrations"
           template: grunt.file.read "#{__dirname}/migrations/_template.coffee" # optional
           mongo: 'mongodb://localhost:12345'
-          ext: "coffee" # default `coffee`
+          ext: "coffee"
+
+#### Options
+
+##### path (required)
+Type: `String`  
+Path to directory containing migrations.
+
+##### template
+Type: `String`  
+Template for generating new migration files.
+
+##### mongo
+Type: `String` | `Object` | `Function`  
+If a string is specified, it is the connection string for MongoDB. If an object is specified, it may have two properties: `uri` (required) which is the connection string, and `opts` which will be passed through to `mongoose.createConnection`. Ex:
+
+    grunt.initConfig
+      migrations:
+        path: "#{__dirname}/migrations"
+        mongo:
+          uri: 'mongodb://localhost:12345'
+          opts:
+            ssl: true
+If a function is specified, it must return either a string or object as described above.
+
+##### ext
+Type: `String`  
+Default: `'coffee'`  
+Values: `'coffee'` | `'js'`  
+Migrations file extension.
 
 ### _template.coffee
 
@@ -42,7 +71,7 @@ By default the task will generate a migration in CoffeeScript using the same tem
       up: (callback) ->
         // your migration goes here
         callback()
-        
+
       down: (callback) ->
         // throw new Error('Irreversible migration.');
         callback()
@@ -106,7 +135,7 @@ Running this again will do nothing because all migrations have been ran.
     >> Finished migrations
 
     Done, without errors.
-    
+
 ### migrate:down
 
 Runs down the last migration.

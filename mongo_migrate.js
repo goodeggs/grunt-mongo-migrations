@@ -12,14 +12,20 @@ slugify = require('slugify');
 
 Migrate = (function() {
   function Migrate(opts, model) {
-    var connection, schema, _base, _base1;
+    var connection, schema, uri, _base, _base1, _ref;
     this.opts = opts;
     this.model = model;
     if (this.model == null) {
       if (typeof this.opts.mongo === 'function') {
         this.opts.mongo = this.opts.mongo();
       }
-      connection = mongoose.createConnection(this.opts.mongo);
+      if (this.opts.mongo.hasOwnProperty('uri')) {
+        _ref = this.opts.mongo, uri = _ref.uri, opts = _ref.opts;
+      } else {
+        uri = this.opts.mongo;
+        opts = void 0;
+      }
+      connection = mongoose.createConnection(uri, opts);
       schema = new mongoose.Schema({
         name: {
           type: String,

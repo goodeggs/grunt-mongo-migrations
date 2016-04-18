@@ -7,7 +7,14 @@ class Migrate
   constructor: (@opts, @model) ->
     unless @model?
       @opts.mongo = @opts.mongo() if typeof @opts.mongo is 'function'
-      connection = mongoose.createConnection @opts.mongo
+
+      if @opts.mongo.hasOwnProperty 'uri'
+        {uri, opts} = @opts.mongo
+      else
+        uri = @opts.mongo
+        opts = undefined
+
+      connection = mongoose.createConnection uri, opts
 
       schema = new mongoose.Schema
         name:  type: String, index: true, unique: true, required: true
@@ -100,4 +107,3 @@ class Migrate
     filename
 
 module.exports = Migrate
-
